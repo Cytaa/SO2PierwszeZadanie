@@ -1,7 +1,3 @@
-//
-// Created by cyta on 02.03.2020.
-//
-
 #ifndef SO2_BALL_H
 #define SO2_BALL_H
 
@@ -11,6 +7,9 @@ class Ball {
         int xPosition;
         int yPosition;
         int speed;
+        bool goingUp;
+        bool canLeft;
+        bool canRight;
 
         int direction();
 public:
@@ -26,11 +25,21 @@ public:
 
     void setSpeed(int speed);
 
-public:
+    Ball(int xPosition, int yPosition, int speed);
 
-        Ball(int xPosition, int yPosition, int speed);
+    void move();
 
-        void move();
+    void setGoingUp(bool goingUp);
+
+    bool getGoingUp();
+
+    void setCanLeft(bool canLeft);
+
+    bool getCanLeft();
+
+    void setCanRight(bool canRight);
+
+    bool getCanRight();
 
 };
 

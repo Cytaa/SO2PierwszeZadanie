@@ -18,15 +18,28 @@ int main(){
     refresh();
     box(win,0,0);
     wrefresh(win);
-    Ball *ball = new Ball(win->_maxx / 2,win->_maxy, 1 );
+    Ball *ball = new Ball(win->_maxx / 2, win->_maxy - 1, 1 );
 
-        for(int i = 0; i <= win->_maxy; i++){
+        while(true){
             wclear(win);
             box(win,0,0);
             mvwprintw(win, ball->getYPosition(), ball->getXPosition(),"*");
             wrefresh(win);
             refresh();
             usleep(100000 * ball->getSpeed());
+            if(ball->getYPosition() == 0){
+                ball->setGoingUp(false);
+            
+
+            }else
+            {
+                if (ball->getYPosition()== win->_maxy)
+                {
+                    ball->setGoingUp(true);
+                }
+                
+            }
+            
             ball->move();
 
         }

@@ -9,19 +9,30 @@ Ball::Ball(int xPosition, int yPosition, int speed){
     this->xPosition = xPosition;
     this->yPosition = yPosition;
     this->speed = speed;
+    this->goingUp = true;
+    this->canLeft = true;
+    this->canRight = true;
 
 }
 
 int Ball::direction() {
     srand(time(NULL));
-
-    return rand() % 3 - 1;
+    if(canLeft == true && canRight == true)return rand() % 3 - 1;
+    if(canLeft == false && canRight == true)return rand() % 2;
+    if(canLeft == true && canRight == false)return rand() % 2 - 1;
 }
 
 
-void Ball::move() {
-    this->yPosition--;
+void Ball::move() {    
+    if(this->goingUp == true){
+        this->yPosition--;
+        this->setXPosition(this->getXPosition() + this->direction());
+    }else
+    {
+        this->yPosition++;
     this->setXPosition(this->getXPosition() + this->direction());
+    }
+    
 }
 
 int Ball::getXPosition() const {
@@ -47,4 +58,29 @@ int Ball::getSpeed() const {
 void Ball::setSpeed(int speed) {
     Ball::speed = speed;
 }
+
+void Ball::setGoingUp(bool goingUp) {
+    this->goingUp = goingUp;
+}
+
+bool Ball::getGoingUp(){
+    return this->goingUp;
+}
+
+bool Ball::getCanLeft(){
+    return this->canLeft;
+}
+
+void Ball::setCanLeft(bool canLeft){
+    this->canLeft = canLeft;
+}
+
+bool Ball::getCanRight(){
+    return this->canRight;
+}
+
+void Ball::setCanRight(bool canRight){
+    this->canRight = canRight;
+}
+
 
