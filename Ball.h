@@ -12,34 +12,34 @@ class Ball {
         bool canRight;
 
         int direction();
-public:
-    int getXPosition() const;
+    public:
+        int getXPosition() const;
 
-    void setXPosition(int xPosition);
+        void setXPosition(int xPosition);
 
-    int getYPosition() const;
+        int getYPosition() const;
 
-    void setYPosition(int yPosition);
+        void setYPosition(int yPosition);
 
-    int getSpeed() const;
+        int getSpeed() const;
 
-    void setSpeed(int speed);
+        void setSpeed(int speed);
 
-    Ball(int xPosition, int yPosition, int speed);
+        Ball(int xPosition, int yPosition, int speed);
 
-    void move();
+        void move();
 
-    void setGoingUp(bool goingUp);
+        void setGoingUp(bool goingUp);
 
-    bool getGoingUp();
+        bool getGoingUp();
 
-    void setCanLeft(bool canLeft);
+        void setCanLeft(bool canLeft);
 
-    bool getCanLeft();
+        bool getCanLeft();
 
-    void setCanRight(bool canRight);
+        void setCanRight(bool canRight);
 
-    bool getCanRight();
+        bool getCanRight();
 
 };
 
