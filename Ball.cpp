@@ -15,11 +15,11 @@ Ball::Ball(int xPosition, int yPosition, int speed){
 
 }
 
-int Ball::direction() {
+int Ball::direction(){
     srand(time(NULL));
-    if(canLeft == true && canRight == true)return rand() % 3 - 1;
     if(canLeft == false && canRight == true)return rand() % 2;
     if(canLeft == true && canRight == false)return rand() % 2 - 1;
+    return rand() % 3 - 1;
 }
 
 
@@ -32,6 +32,8 @@ void Ball::move() {
         this->yPosition++;
     this->setXPosition(this->getXPosition() + this->direction());
     }
+    this->canLeft = true;
+    this->canRight = true;
     
 }
 

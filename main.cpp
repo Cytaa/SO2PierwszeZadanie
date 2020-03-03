@@ -9,8 +9,8 @@ int main(){
     initscr();
 
     int height, width, startingY, startingX;
-    height = 20;
-    width = 70;
+    height = 40;
+    width = 120;
     startingX = startingY = 2;
 
 
@@ -21,25 +21,17 @@ int main(){
     Ball *ball = new Ball(win->_maxx / 2, win->_maxy - 1, 1 );
 
         while(true){
+            noecho();
             wclear(win);
             box(win,0,0);
             mvwprintw(win, ball->getYPosition(), ball->getXPosition(),"*");
             wrefresh(win);
             refresh();
-            usleep(100000 * ball->getSpeed());
-            if(ball->getYPosition() == 0){
-                ball->setGoingUp(false);
-            
-
-            }else
-            {
-                if (ball->getYPosition()== win->_maxy)
-                {
-                    ball->setGoingUp(true);
-                }
-                
-            }
-            
+            usleep(50000 * ball->getSpeed());
+            if(ball->getYPosition() == 0)ball->setGoingUp(false);
+            if(ball->getYPosition() == win->_maxy)ball->setGoingUp(true);
+            if(ball->getXPosition() == 0) ball->setCanLeft(false);
+            if(ball->getXPosition() == win->_maxx)ball->setCanRight(false);   
             ball->move();
 
         }
