@@ -18,7 +18,7 @@ int main(){
     refresh();
     box(win,0,0);
     wrefresh(win);
-    Ball *ball = new Ball(win->_maxx / 2, win->_maxy - 1, 1 );
+    Ball * ball = new Ball(win->_maxx / 2, win->_maxy - 1, 1 );
 
         while(true){
             noecho();

@@ -1,6 +1,3 @@
-//
-// Created by cyta on 02.03.2020.
-//
 #include <time.h>
 #include <cstdlib>
 #include "Ball.h"
