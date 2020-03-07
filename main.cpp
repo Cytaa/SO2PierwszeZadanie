@@ -5,10 +5,8 @@
 #include <thread>
 
 
-void run(Ball *ball, WINDOW *win){
-    int i = 100;
-    while(i != 0){
-            noecho();
+void run(WINDOW *win, Ball *ball){
+    while(true){
             wclear(win);
             box(win,0,0);
             mvwprintw(win, ball->getYPosition(), ball->getXPosition(),"*");
@@ -20,10 +18,13 @@ void run(Ball *ball, WINDOW *win){
             if(ball->getXPosition() == 0) ball->setCanLeft(false);
             if(ball->getXPosition() == win->_maxx)ball->setCanRight(false);   
             ball->move();
-            i--;
+    }
 
-        }
-};
+}
+
+void refresh(WINDOW *win){
+    
+}
 
 int main(){
 
@@ -36,20 +37,19 @@ int main(){
 
 
     WINDOW *win = newwin(height, width, startingX, startingY);
-    refresh();
-    box(win,0,0);
-    wrefresh(win);
+    
     Ball *ball = new Ball(win->_maxx / 2, win->_maxy - 1, 1 );
     Ball *ball2 = new Ball(win->_maxx / 2, win->_maxy - 1, 2 );
-    
-    std::thread t1(run,ball,win);
-    std::thread t2(run,ball2,win);
+    Ball *ball3 = new Ball(win->_maxx / 2, win->_maxy - 1, 3 );
+
+    std::thread t1(run, win, ball);
+    std::thread t2(run, win, ball2);
+    std::thread t3(run, win, ball3);
 
 
     t1.join();
-    t2.join();    
+    t2.join();
 
-    getch();
     endwin();
     return 0;
 }
