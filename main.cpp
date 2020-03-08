@@ -4,16 +4,21 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <time.h>
+#include <random>
 
 
-void run(WINDOW *win, Ball *ball){
+void run(WINDOW *win, std::vector<Ball*> *balls){
+    
     while(true){
-            usleep(50000 * ball->getSpeed());
-            if(ball->getYPosition() == 0)ball->setGoingUp(false);
-            if(ball->getYPosition() == win->_maxy)ball->setGoingUp(true);
-            if(ball->getXPosition() == 0) ball->setCanLeft(false);
-            if(ball->getXPosition() == win->_maxx)ball->setCanRight(false);   
-            ball->move();
+        for(int i = 0; i < balls->size(); i++){
+            usleep(50000 * balls->at(i)->getSpeed());
+            if(balls->at(i)->getYPosition() == 0)balls->at(i)->setGoingUp(false);
+            if(balls->at(i)->getYPosition() == win->_maxy)balls->at(i)->setGoingUp(true);
+            if(balls->at(i)->getXPosition() == 0)balls->at(i)->setCanLeft(false);
+            if(balls->at(i)->getXPosition() == win->_maxx)balls->at(i)->setCanRight(false);   
+            balls->at(i)->move();
+        }
     }
 
 }
@@ -29,6 +34,16 @@ void refr(WINDOW *win, std::vector<Ball*> *balls){
         }
         wrefresh(win);
         refresh();
+    }
+}
+
+void newBall(std::vector<Ball*> *balls, WINDOW *win){
+    srand(time(NULL));
+    
+    while(true){
+        Ball *ball = new Ball(rand() % win->_maxx, rand() % win->_maxy, rand() % 5);
+        balls->push_back(ball);  
+        sleep(2);
     }
 }
 
@@ -50,24 +65,13 @@ int main(){
 
     WINDOW *win = newwin(height, width, startingX, startingY);
     
-    Ball *ball = new Ball(win->_maxx / 2, win->_maxy - 1, 1 );
-    Ball *ball2 = new Ball(win->_maxx / 2, win->_maxy - 1, 2 );
-
-    balls->push_back(ball);
-    balls->push_back(ball2);
-
-    
+    std::thread creator(newBall, balls, win);
+    std::thread move(run, win, balls);
     std::thread refresher(refr, win, balls);
-    std::thread t1(run, win, ball);
-    std::thread t2(run, win, ball2);
     
-    
-
-
-    t1.join();
-    t2.join();    
-
     refresher.join();
+    move.join();
+    creator.join();
 
     endwin();
     return 0;
