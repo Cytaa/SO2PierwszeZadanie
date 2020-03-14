@@ -11,7 +11,7 @@
 void run(WINDOW *win, Ball *ball){
     
     while(true){
-        usleep(50000 * ball->getSpeed());
+        usleep(5000 * ball->getSpeed());
         if(ball->getYPosition() == 0)ball->setGoingUp(false);
         if(ball->getYPosition() == win->_maxy)ball->setGoingUp(true);
         if(ball->getXPosition() == 0)ball->setCanLeft(false);
@@ -42,12 +42,13 @@ void newBall(std::vector<Ball*> *balls, std::vector<std::thread> *threads,WINDOW
         std::thread movement(run, win, ball);
         balls->push_back(ball);
         threads->push_back(std::move(movement));
-        sleep(2);
+        sleep(1);
     
     }
 }
 
 void closeProgram(std::vector<std::thread> *threads){
+    
 }
 
 int main(){
@@ -72,11 +73,11 @@ int main(){
     
     std::thread creator(newBall, balls, threads, win);
     std::thread refresher(refr, win, balls);
-    //std::thread close(closeProgram,threads);
+    std::thread close(closeProgram,threads);
     
     refresher.join();
     creator.join();
-    //close.join();
+    close.join();
 
     endwin();
     return 0;
