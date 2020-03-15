@@ -9,13 +9,14 @@ Ball::Ball(int xPosition, int yPosition, int speed){
     this->goingUp = true;
     this->canLeft = true;
     this->canRight = true;
+    this->end = false;
 
 }
 
 int Ball::direction(){
     srand(time(NULL));
-    if(canLeft == false && canRight == true)return rand() % 2;
-    if(canLeft == true && canRight == false)return rand() % 2 - 1;
+    if(canLeft == false && canRight == true)return random() % 2;
+    if(canLeft == true && canRight == false)return random() % 2 - 1;
     return rand() % 3 - 1;
 }
 
@@ -82,4 +83,10 @@ void Ball::setCanRight(bool canRight){
     this->canRight = canRight;
 }
 
+void Ball::setEnd(bool end){
+    this->end = end;
+}
 
+bool Ball::getEnd(){
+    return this->end;
+}

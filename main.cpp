@@ -6,25 +6,23 @@
 #include <vector>
 #include <time.h>
 #include <random>
-
+int ch;
 
 void run(WINDOW *win, Ball *ball){
-    
-    while(true){
+    while(ball->getEnd() == false){
         usleep(5000 * ball->getSpeed());
         if(ball->getYPosition() == 0)ball->setGoingUp(false);
         if(ball->getYPosition() == win->_maxy)ball->setGoingUp(true);
         if(ball->getXPosition() == 0)ball->setCanLeft(false);
         if(ball->getXPosition() == win->_maxx)ball->setCanRight(false);   
         ball->move();
-
     }
 
 }
 
 void refr(WINDOW *win, std::vector<Ball*> *balls){
    
-    while(true){    
+    while(ch != 'q'){    
         wclear(win);
         for(int i = 0; i < balls->size(); i++){
             mvwprintw(win, balls->at(i)->getYPosition(), balls->at(i)->getXPosition(),"o");
@@ -35,10 +33,10 @@ void refr(WINDOW *win, std::vector<Ball*> *balls){
 
 void newBall(std::vector<Ball*> *balls, std::vector<std::thread> *threads,WINDOW *win){
     srand(time(NULL));
+    
+    while(ch != 'q'){
 
-    while(true){
-
-        Ball *ball = new Ball(rand() % win->_maxx, rand() % win->_maxy, rand() % 5 + 1);
+        Ball *ball = new Ball(rand() % win->_maxx, rand() % win->_maxy, rand() % 3 + 1);
         std::thread movement(run, win, ball);
         balls->push_back(ball);
         threads->push_back(std::move(movement));
@@ -47,8 +45,13 @@ void newBall(std::vector<Ball*> *balls, std::vector<std::thread> *threads,WINDOW
     }
 }
 
-void closeProgram(std::vector<std::thread> *threads){
-    
+void stopProgramm( std::vector<Ball*> *balls){
+    ch = getch();
+    if(ch == 'q'){
+        for(int i = 0; i < balls->size(); i++){
+            balls->at(i)->setEnd(true);
+        }
+    }
 }
 
 int main(){
@@ -73,11 +76,19 @@ int main(){
     
     std::thread creator(newBall, balls, threads, win);
     std::thread refresher(refr, win, balls);
-    std::thread close(closeProgram,threads);
+    std::thread end(stopProgramm, balls);
+
     
+
+
+    for(int i = 0; i < threads->size(); i++){
+        threads->at(i).join();
+    }
+
+
     refresher.join();
     creator.join();
-    close.join();
+    end.join();
 
     endwin();
     return 0;

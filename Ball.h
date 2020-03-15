@@ -10,6 +10,7 @@ class Ball {
         bool goingUp;
         bool canLeft;
         bool canRight;
+        bool end;
 
         int direction();
     public:
@@ -40,6 +41,10 @@ class Ball {
         void setCanRight(bool canRight);
 
         bool getCanRight();
+
+        void setEnd(bool end);
+        
+        bool getEnd();
 
 };
 
