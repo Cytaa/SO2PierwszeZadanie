@@ -25,7 +25,7 @@ void refr(WINDOW *win, std::vector<Ball*> *balls){
     while(ch != 'q'){    
         wclear(win);
         for(int i = 0; i < balls->size(); i++){
-            mvwprintw(win, balls->at(i)->getYPosition(), balls->at(i)->getXPosition(),"o");
+            if(balls->at(i)->getPrint() == true) mvwprintw(win, balls->at(i)->getYPosition(), balls->at(i)->getXPosition(),"o");
         }
         wrefresh(win);
         usleep(400);
@@ -56,7 +56,17 @@ void stopProgramm( std::vector<Ball*> *balls){
 }
 
 void canMerge (std::vector<Ball*> *balls){
-    
+    while(ch != 'q'){
+        for(int i = 0; i < balls->size(); i++){
+            for(int y = 0; y < balls->size(); y++){
+                if(i != y){
+                    if((balls->at(i)->getXPosition() - balls->at(y)->getXPosition() == 0) && (balls->at(i)->getYPosition() - balls->at(y)->getYPosition() ==0)){
+                        balls->at(y)->setPrint(false);
+                    }
+                }
+            }
+        }
+    }
 }
 
 int main(){
@@ -82,6 +92,7 @@ int main(){
     std::thread creator(newBall, balls, threads, win);
     std::thread refresher(refr, win, balls);
     std::thread end(stopProgramm, balls);
+   // std::thread merg(canMerge,balls);
 
     
 
@@ -93,7 +104,9 @@ int main(){
 
     refresher.join();
     creator.join();
+    //merg.join();
     end.join();
+    
 
     endwin();
     return 0;

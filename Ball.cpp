@@ -10,6 +10,7 @@ Ball::Ball(int xPosition, int yPosition, int speed){
     this->canLeft = true;
     this->canRight = true;
     this->end = false;
+    this->print = true;
 
 }
 
