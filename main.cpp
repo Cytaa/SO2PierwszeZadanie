@@ -28,7 +28,7 @@ void refr(WINDOW *win, std::vector<Ball*> *balls){
             if(balls->at(i)->getPrint() == true) mvwprintw(win, balls->at(i)->getYPosition(), balls->at(i)->getXPosition(),"o");
         }
         wrefresh(win);
-        usleep(400);
+        usleep(4000);
     }
 }
 
@@ -37,11 +37,11 @@ void newBall(std::vector<Ball*> *balls, std::vector<std::thread> *threads,WINDOW
     
     while(ch != 'q'){
 
-        Ball *ball = new Ball(rand() % win->_maxx, rand() % win->_maxy, rand() % 3 + 1);
+        Ball *ball = new Ball(rand() % win->_maxx, rand() % win->_maxy, 3);
         std::thread movement(run, win, ball);
         balls->push_back(ball);
         threads->push_back(std::move(movement));
-        sleep(1);
+        sleep(3);
     
     }
 }
@@ -55,17 +55,31 @@ void stopProgramm( std::vector<Ball*> *balls){
     }
 }
 
-void canMerge (std::vector<Ball*> *balls){
+void merge (std::vector<Ball*> *balls){
     while(ch != 'q'){
         for(int i = 0; i < balls->size(); i++){
             for(int y = 0; y < balls->size(); y++){
                 if(i != y){
-                    if((balls->at(i)->getXPosition() - balls->at(y)->getXPosition() == 0) && (balls->at(i)->getYPosition() - balls->at(y)->getYPosition() ==0)){
+                    if((balls->at(i)->getXPosition() - balls->at(y)->getXPosition() == 0) && (balls->at(i)->getYPosition() - balls->at(y)->getYPosition() == 0)){
                         balls->at(y)->setPrint(false);
                     }
                 }
             }
         }
+        usleep(4000);
+    }
+}
+
+void show(std::vector<Ball*> *balls){
+    while(ch != 'q'){
+        for(int i = 0; i < balls->size(); i++){
+            if(balls->at(i)->getXPosition() == 0 || balls->at(i)->getXPosition() == 119 || balls->at(i)->getYPosition() == 0 || balls->at(i)->getYPosition() == 39){
+                for(int y = 0; y < balls->size(); y++){
+                    balls->at(y)->setPrint(true);
+                }
+            }
+        }
+        usleep(4000);
     }
 }
 
@@ -82,17 +96,19 @@ int main(){
     curs_set(0);
 
     int height, width, startingY, startingX;
-    height = 40;
-    width = 120;
+    height = 39;
+    width = 119;
     startingX = startingY = 2;
 
 
     WINDOW *win = newwin(height, width, startingX, startingY);
     
     std::thread creator(newBall, balls, threads, win);
+    std::thread merg(merge,balls);
+    std::thread visibility(show,balls);
     std::thread refresher(refr, win, balls);
     std::thread end(stopProgramm, balls);
-   // std::thread merg(canMerge,balls);
+    
 
     
 
@@ -104,7 +120,8 @@ int main(){
 
     refresher.join();
     creator.join();
-    //merg.join();
+    merg.join();
+    visibility.join();
     end.join();
     
 

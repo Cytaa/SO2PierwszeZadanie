@@ -1,5 +1,6 @@
 #ifndef SO2_BALL_H
 #define SO2_BALL_H
+#include <atomic>
 
 
 class Ball {
@@ -11,7 +12,7 @@ class Ball {
         bool canLeft;
         bool canRight;
         bool end;
-        bool print;
+        std::atomic<bool> print;
 
         int direction();
     public:
