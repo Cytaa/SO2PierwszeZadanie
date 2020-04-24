@@ -90,3 +90,11 @@ void Ball::setEnd(bool end){
 bool Ball::getEnd(){
     return this->end;
 }
+
+void Ball::setPrint(bool print){
+    this->print = print;
+}
+
+bool Ball::getPrint(){
+    return this->print;
+}

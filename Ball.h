@@ -11,6 +11,7 @@ class Ball {
         bool canLeft;
         bool canRight;
         bool end;
+        bool print;
 
         int direction();
     public:
@@ -45,6 +46,10 @@ class Ball {
         void setEnd(bool end);
         
         bool getEnd();
+
+        void setPrint(bool print);
+
+        bool getPrint();
 
 };
 

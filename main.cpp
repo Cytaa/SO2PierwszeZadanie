@@ -28,6 +28,7 @@ void refr(WINDOW *win, std::vector<Ball*> *balls){
             mvwprintw(win, balls->at(i)->getYPosition(), balls->at(i)->getXPosition(),"o");
         }
         wrefresh(win);
+        usleep(400);
     }
 }
 
@@ -52,6 +53,10 @@ void stopProgramm( std::vector<Ball*> *balls){
             balls->at(i)->setEnd(true);
         }
     }
+}
+
+void canMerge (std::vector<Ball*> *balls){
+    
 }
 
 int main(){
