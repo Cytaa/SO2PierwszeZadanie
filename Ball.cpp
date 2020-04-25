@@ -11,23 +11,23 @@ Ball::Ball(int xPosition, int yPosition, int speed){
     this->canRight = true;
     this->end = false;
     this->print = true;
+    srand(time(NULL));
 
 }
 
-int Ball::direction(){
-    srand(time(NULL));
+int Ball::direction(){    
     if(canLeft == false && canRight == true)return random() % 2;
     if(canLeft == true && canRight == false)return random() % 2 - 1;
     return rand() % 3 - 1;
 }
 
 
-void Ball::move() {    
+void Ball::move(){    
     if(this->goingUp == true){
         this->yPosition--;
         this->setXPosition(this->getXPosition() + this->direction());
-    }else
-    {
+    }
+    else{
         this->yPosition++;
     this->setXPosition(this->getXPosition() + this->direction());
     }

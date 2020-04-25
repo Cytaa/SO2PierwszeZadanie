@@ -10,7 +10,7 @@ int ch;
 
 void run(WINDOW *win, Ball *ball){
     while(ball->getEnd() == false){
-        usleep(5000 * ball->getSpeed());
+        usleep(9000 * ball->getSpeed());
         if(ball->getYPosition() == 0)ball->setGoingUp(false);
         if(ball->getYPosition() == win->_maxy)ball->setGoingUp(true);
         if(ball->getXPosition() == 0)ball->setCanLeft(false);
@@ -24,11 +24,12 @@ void refr(WINDOW *win, std::vector<Ball*> *balls){
    
     while(ch != 'q'){    
         wclear(win);
+        box(win,0,0);
         for(int i = 0; i < balls->size(); i++){
             if(balls->at(i)->getPrint() == true) mvwprintw(win, balls->at(i)->getYPosition(), balls->at(i)->getXPosition(),"o");
         }
         wrefresh(win);
-        usleep(4000);
+        usleep(10000);
     }
 }
 
@@ -41,7 +42,7 @@ void newBall(std::vector<Ball*> *balls, std::vector<std::thread> *threads,WINDOW
         std::thread movement(run, win, ball);
         balls->push_back(ball);
         threads->push_back(std::move(movement));
-        sleep(3);
+        sleep(5);
     
     }
 }
@@ -66,7 +67,7 @@ void merge (std::vector<Ball*> *balls){
                 }
             }
         }
-        usleep(4000);
+        usleep(5000);
     }
 }
 
@@ -75,11 +76,16 @@ void show(std::vector<Ball*> *balls){
         for(int i = 0; i < balls->size(); i++){
             if(balls->at(i)->getXPosition() == 0 || balls->at(i)->getXPosition() == 119 || balls->at(i)->getYPosition() == 0 || balls->at(i)->getYPosition() == 39){
                 for(int y = 0; y < balls->size(); y++){
-                    balls->at(y)->setPrint(true);
+                    if(balls->at(y)->getPrint() == false){
+                        balls->at(y)->setXPosition(balls->at(i)->getXPosition());
+                        balls->at(y)->setYPosition(balls->at(i)->getYPosition());
+                        balls->at(y)->setPrint(true);
+                    }
+                    
                 }
             }
         }
-        usleep(4000);
+        usleep(5000);
     }
 }
 
@@ -102,6 +108,7 @@ int main(){
 
 
     WINDOW *win = newwin(height, width, startingX, startingY);
+    
     
     std::thread creator(newBall, balls, threads, win);
     std::thread merg(merge,balls);
