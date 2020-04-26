@@ -36,7 +36,7 @@ void Ball::move(){
     
 }
 
-int Ball::getXPosition() const {
+int Ball::getXPosition(){
     return xPosition;
 }
 
@@ -44,7 +44,7 @@ void Ball::setXPosition(int xPosition) {
     Ball::xPosition = xPosition;
 }
 
-int Ball::getYPosition() const {
+int Ball::getYPosition(){
     return yPosition;
 }
 
@@ -52,7 +52,7 @@ void Ball::setYPosition(int yPosition) {
     Ball::yPosition = yPosition;
 }
 
-int Ball::getSpeed() const {
+int Ball::getSpeed(){
     return speed;
 }
 

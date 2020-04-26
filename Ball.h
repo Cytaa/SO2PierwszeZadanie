@@ -16,15 +16,15 @@ class Ball {
 
         int direction();
     public:
-        int getXPosition() const;
+        int getXPosition();
 
         void setXPosition(int xPosition);
 
-        int getYPosition() const;
+        int getYPosition();
 
         void setYPosition(int yPosition);
 
-        int getSpeed() const;
+        int getSpeed();
 
         void setSpeed(int speed);
 
